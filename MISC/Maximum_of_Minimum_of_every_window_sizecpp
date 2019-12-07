@@ -1,0 +1,64 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define int long long
+signed main(){
+    int t;
+    cin>>t;
+    while(t--){
+        int n;
+        cin>>n;
+        vector<int> A(n);
+        for(int i=0; i<n; i++){
+            cin>>A[i];
+        }
+        // cout<<"here"<<endl;
+        vector<int> ls(n);
+        stack<int> sl;
+        // ls[0] = -1;
+        for(int i=0; i<n; i++){
+            int a = A[i];
+            while(!sl.empty() && a <= A[sl.top()]){
+                sl.pop();
+            }
+            if(sl.empty()){
+                ls[i] = -1;
+            }
+            else{
+                ls[i] = sl.top();
+            }
+            sl.push(i);
+        }
+        vector<int>rs(n);
+        stack<int> sr;
+        for(int i=n-1; i>=0; i--){
+            int a = A[i];
+            while(!sr.empty() && a <= A[sr.top()]){
+                sr.pop();
+            }
+            if(sr.empty()){
+                rs[i] = n;
+            }
+            else{
+                rs[i] = sr.top();
+            }
+            sr.push(i);
+        }
+        vector<int> ans(n+1, INT_MIN);
+        for(int i=0; i<rs.size(); i++){
+            // cout<<ls[i]<<" "<<rs[i]<<" ";
+            int wsz = rs[i] - ls[i] - 1;
+            // cout<<"sz = "<<wsz<<endl;
+            ans[wsz] = max(ans[wsz], A[i]);
+        }
+        int i = ans.size() - 2;
+        while(i >= 0){
+            ans[i] = max(ans[i], ans[i+1]);
+            i--;
+        }
+        for(int i=1; i<ans.size(); i++){
+            cout<<ans[i]<<" ";
+        }
+        cout<<endl;
+    }
+	return 0;
+}

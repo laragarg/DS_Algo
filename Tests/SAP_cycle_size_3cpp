@@ -1,0 +1,44 @@
+#include <bits/stdc++.h>
+using namespace std;
+int tcount;
+vector <vector <int> > input;
+vector <bool> visited;
+int calc(int node,int par,int gpar){
+    return input[node].size() + input[par].size() + input[gpar].size() - 6;
+}
+void dfs(int node,int par,int gpar){
+    visited[node] = true;
+    for(int i=0; i<input[node].size(); i++){
+        if(input[node][i] == par){
+            continue;    
+        } 
+        if(input[node][i] == gpar){
+            tcount += calc(node, par, gpar);
+        }
+        if(visited[input[node][i]] == false){
+            dfs(input[node][i], node, par);
+        }
+    }
+}
+int main(){
+    int n, m;
+    cin>>n>>m;
+    input.clear();
+    input.resize(n+1);
+    for(int i=0;i<m;i++){
+        int a,b;cin>>a>>b;
+        input[a].push_back(b);
+        input[b].push_back(a);
+    }
+    visited.clear();
+    visited.resize(n+1,false);
+    int res = 0;
+    for(int i=1;i<=n;i++){
+        if(visited[i] == false){
+            tcount =0;
+            dfs(i, -1, -1);
+            res += tcount;
+        }
+    }
+    cout<<res<<endl;
+}

@@ -34,8 +34,8 @@ int Solution::longestSubsequenceLength(const vector<int> &A) {
     inc(A);
     dec(A);
     for(int i=0; i<n; i++){
-        ans = max(ans, lis[i] + lds[i] - 1);// -1 because they were initialized
-                                        //with 1 while declaring them
+        ans = max(ans, lis[i] + lds[i] - 1);// -1 because arrays were initialized
+                                        //with 1
     }
     return ans;
 }
